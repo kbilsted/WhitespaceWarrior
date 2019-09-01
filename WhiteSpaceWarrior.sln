@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.152
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhiteSpaceWarrior", "WhiteSpaceWarrior\WhiteSpaceWarrior.csproj", "{7D325A3B-ADF8-4A1B-B50E-07B84EAAE2FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhiteSpaceWarriorTests", "TestProject\WhiteSpaceWarriorTests.csproj", "{3DB51092-BFF0-42A5-BD35-59DEF2C97241}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7D325A3B-ADF8-4A1B-B50E-07B84EAAE2FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D325A3B-ADF8-4A1B-B50E-07B84EAAE2FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D325A3B-ADF8-4A1B-B50E-07B84EAAE2FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D325A3B-ADF8-4A1B-B50E-07B84EAAE2FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DB51092-BFF0-42A5-BD35-59DEF2C97241}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DB51092-BFF0-42A5-BD35-59DEF2C97241}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DB51092-BFF0-42A5-BD35-59DEF2C97241}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DB51092-BFF0-42A5-BD35-59DEF2C97241}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {48ADBC83-0BAD-4320-9259-3D6762B00F01}
+	EndGlobalSection
+EndGlobal
