@@ -1,20 +1,32 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace WhiteSpaceWarrior
 {
+    [Command(
+        FullName = @"NAME
+    WhiteSpaceWarrior ",
+        Description = @"DESCRIPTION
+    This command strips unnecesarry cruft from c# files.
+
+LICENSE
+    Freeware - (c) Kasper B. Graversen 2019"
+        )    ]
     class Program
     {
         public static int Main(string[] args)
             => CommandLineApplication.Execute<Program>(args);
-        
-        [Option(Description = "start path")]
-        public string Path { get; }
 
-        [Option(ShortName = "v")]
+        [Required]
+        [Argument(0, Description = "The path from which to recursevely compress cs files")]
+        public string? Path { get; }
+
+        [RegularExpression("0|1")]
+        [Option(CommandOptionType.SingleValue, ShortName = "v", Description ="Either use 0 or 1")]
         public int Verbosity { get; }
 
 
@@ -23,22 +35,30 @@ namespace WhiteSpaceWarrior
 
         private void OnExecute()
         {
-            if (Verbosity == 0) 
-                showFilesWhenProcessing = true;
-            if (Verbosity == 1) 
-                printOnlyChangedFiles = true;
-
-            int totalLinesReduced = 0; 
-            
-            foreach (var path in Directory.EnumerateFiles(Path, "*.cs", SearchOption.AllDirectories))
+            try
             {
-                var linesReduced = PrintAndCompress(showFilesWhenProcessing, printOnlyChangedFiles, path);
+                if (Verbosity == 0)
+                    showFilesWhenProcessing = true;
+                if (Verbosity == 1)
+                    printOnlyChangedFiles = true;
 
-                totalLinesReduced += linesReduced;
+                int totalLinesReduced = 0;
+
+                foreach (var path in Directory.EnumerateFiles(Path, "*.cs", SearchOption.AllDirectories))
+                {
+                    var linesReduced = PrintAndCompress(showFilesWhenProcessing, printOnlyChangedFiles, path);
+
+                    totalLinesReduced += linesReduced;
+                }
+
+                Console.WriteLine();
+                Console.WriteLine($"Total lines reduced: {totalLinesReduced}");
             }
-
-            Console.WriteLine();
-            Console.WriteLine($"Total lines reduced: {totalLinesReduced}");
+            catch (Exception e)
+            {
+                Console.WriteLine(e.GetType());
+                Console.WriteLine(e.Message);
+            }
         }
 
         private static int PrintAndCompress(bool showFilesWhenProcessing, bool printOnlyChangedFiles, string path)
@@ -66,7 +86,7 @@ namespace WhiteSpaceWarrior
             var file = File.ReadAllText(path, enc);
             var lines = file.Count(x => x == '\n');
 
-            var newFile = CallCompressors(file);
+            var newFile = new Compressors().Compress(file);
 
             if (newFile.Length != file.Length)
             {
@@ -75,15 +95,6 @@ namespace WhiteSpaceWarrior
             }
 
             return 0;
-        }
-
-        private static string CallCompressors(string file)
-        {
-            file = Compressors.CompressProperties(file);
-            file = Compressors.CompressRegionVersionHistory(file);
-            file = new Compressors().Compress(file);
-
-            return file;
         }
 
         private static bool IsUtf8Bom(string path)

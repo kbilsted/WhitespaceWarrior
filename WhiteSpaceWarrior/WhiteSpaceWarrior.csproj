@@ -8,6 +8,9 @@
     <LangVersion>8.0</LangVersion>
     <WarningsAsErrors>true</WarningsAsErrors>
     <StartupObject>WhiteSpaceWarrior.Program</StartupObject>
+    <Copyright>Kasper B. Graversen</Copyright>
+    <Company>KBG Inc.</Company>
+    <Authors>Kasper B. Graversen</Authors>
   </PropertyGroup>
 
   <ItemGroup>
