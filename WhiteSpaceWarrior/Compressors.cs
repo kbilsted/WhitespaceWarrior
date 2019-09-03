@@ -20,12 +20,15 @@ namespace WhiteSpaceWarrior
             return content;
         }
 
+        static readonly Regex OldStyleMethodSeparator = new Regex(@"(\r?\n){2,}[ \t]*/////+[ \t]*\r?\n(\r?\n)+", options);
+        static readonly Regex OldStyleMethodSeparatorPreprocessorDirectives = new Regex(@"(?<=(#if|#region) \w*[ \t]*(\r?\n))[ \t]*/////+[ \t]*\r?\n(\r?\n)+", options);
+        static readonly Regex OldStyleMethodSeparatorEndPreprocessorDirectives = new Regex(@"(\r?\n){2,}[ \t]*/////+[ \t]*\r?\n[ \t]*(?=(#endif|#endregion))", options);
+
         private static string OldStyleMethodSeparators(string content)
         {
             content = OldStyleMethodSeparator.Replace(content, Environment.NewLine + Environment.NewLine);
-            //content = OldStyleMethodSeparatorPreprocessorDirectives.Replace(content, "${preprocessorDirectives}" + Environment.NewLine);
             content = OldStyleMethodSeparatorPreprocessorDirectives.Replace(content, Environment.NewLine);
-            content = OldStyleMethodSeparatorEndPreprocessorDirectives.Replace(content, Environment.NewLine + "${end}");
+            content = OldStyleMethodSeparatorEndPreprocessorDirectives.Replace(content, Environment.NewLine+Environment.NewLine);
             return content;
         }
 
@@ -64,12 +67,5 @@ namespace WhiteSpaceWarrior
         static readonly Regex emptyParamRE = new Regex(@"[ \t]+/// <param name\s*=\s*""[^""]*"">\s*</param>[^\n]*\n", options);
         static readonly Regex emptyTypeparamRE = new Regex(@"[ \t]+/// <typeparam name\s*=\s*""[^""]*"">\s*</typeparam>[^\n]*\n", options);
         static readonly Regex EmptyReturnsRE = new Regex(@"[ \t]+/// <returns>\s*</returns>[^\n]*\n", options);
-
-        static readonly Regex OldStyleMethodSeparator = new Regex(@"(\r?\n){2,}[ \t]*/////+[ \t]*\r?\n(\r?\n)+", options);
-        //static readonly Regex OldStyleMethodSeparatorPreprocessorDirectives = new Regex(@"(?<preprocessorDirectives>(#if|#region) \w*[ \t]*(\r?\n))[ \t]*/////+[ \t]*\r?\n(\r?\n)+", options);
-        //static readonly Regex OldStyleMethodSeparatorEndPreprocessorDirectives = new Regex(@"(\r?\n){2,}[ \t]*/////+[ \t]*\r?\n[ \t]*(?<end>(#endif|#endregion))", options);
-        static readonly Regex OldStyleMethodSeparatorPreprocessorDirectives = new Regex(@"(?<=(#if|#region) \w*[ \t]*(\r?\n))[ \t]*/////+[ \t]*\r?\n(\r?\n)+", options);
-        static readonly Regex OldStyleMethodSeparatorEndPreprocessorDirectives = new Regex(@"(\r?\n){2,}[ \t]*/////+[ \t]*\r?\n[ \t]*(?<end>(#endif|#endregion))", options);
-
     }
 }

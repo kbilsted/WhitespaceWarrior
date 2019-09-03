@@ -138,13 +138,16 @@ string MyProperty
         [Test]
         public void OldStyleSeparator_with_if()
         {
-            var code = @"
+            var code = @"}
+
         #if DEBUG
         /////////////////////////////////////////////////////////////////////////////////
 
         static foo";
 
-            Assert.AreEqual(@"#if DEBUG
+            Assert.AreEqual(@"}
+
+        #if DEBUG
 
         static foo", Compress(code));
 
@@ -153,14 +156,16 @@ string MyProperty
         [Test]
         public void OldStyleSeparator_with_endregion()
         {
-            var code = @"
+            var code = @"}
 
         /////////////////////////////////////////////////////////////////////////////////
-        #endregion
+#endregion
 
         static foo";
 
-            Assert.AreEqual(@"#endregion
+            Assert.AreEqual(@"}
+
+#endregion
 
         static foo", Compress(code));
 
