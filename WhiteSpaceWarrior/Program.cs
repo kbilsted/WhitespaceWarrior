@@ -37,9 +37,9 @@ LICENSE
         {
             try
             {
-                if (Verbosity == 0)
-                    showFilesWhenProcessing = true;
                 if (Verbosity == 1)
+                    showFilesWhenProcessing = true;
+                if (Verbosity == 0)
                     printOnlyChangedFiles = true;
 
                 int totalLinesReduced = 0;

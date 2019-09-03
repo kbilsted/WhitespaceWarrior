@@ -11,28 +11,35 @@ namespace WhiteSpaceWarrior
         public string Compress(string content)
         {
             content = CompressProperties(content);
-            content = CompressRegionVersionHistory(content);
+            content = VersionHistoryRE.Replace(content, "");
+
             content = CompressParam(content);
             content = EmptyReturnsRE.Replace(content, "");
+            content = OldStyleMethodSeparators(content);
             content = CompressSummmary(content);
             return content;
         }
 
-        static readonly Regex MultilineProperties = new Regex(@"\s*\{\s+get;\s+(?<modifier>protected |private )?set;\s+\}", options);
+        private static string OldStyleMethodSeparators(string content)
+        {
+            content = OldStyleMethodSeparator.Replace(content, Environment.NewLine + Environment.NewLine);
+            //content = OldStyleMethodSeparatorPreprocessorDirectives.Replace(content, "${preprocessorDirectives}" + Environment.NewLine);
+            content = OldStyleMethodSeparatorPreprocessorDirectives.Replace(content, Environment.NewLine);
+            content = OldStyleMethodSeparatorEndPreprocessorDirectives.Replace(content, Environment.NewLine + "${end}");
+            return content;
+        }
+
+        static readonly Regex MultilineProperties_get_set = new Regex(@"\s*\{\s+get;\s+(?<modifier>protected |private )?set;\s+\}", options);
+        static readonly Regex MultilineProperties_set_get = new Regex(@"\s*\{\s+(?<modifier>protected |private )?set;\s+get;\s+\}", options);
 
         static string CompressProperties(string content)
         {
-            var newFile = MultilineProperties.Replace(content, @" { get; ${modifier}set; }");
-            return newFile;
+            content = MultilineProperties_get_set.Replace(content, @" { get; ${modifier}set; }");
+            content = MultilineProperties_set_get.Replace(content, @" { get; ${modifier}set; }");
+            return content;
         }
 
         static readonly Regex VersionHistoryRE = new Regex(@"( |\t)*#region Version History( |\t)*((?>\s*//[^\n]*))*\s*#endregion( |\t)*(\r\n?|\n)+", optionsIgnoreCase);
-
-        static string CompressRegionVersionHistory(string content)
-        {
-            var newFile = VersionHistoryRE.Replace(content, "");
-            return newFile;
-        }
 
         static readonly Regex singleLineSummaryRE = new Regex(@"(?<indent>[ \t]+)/// <summary>[ \t]*\r?\n[ \t]+///[ \t]*(?<comment>[^\r\n]*)\r?\n[ \t]+/// </summary>[^\n]*\n", options);
         static readonly Regex singleLineEmptySummaryRE = new Regex(@"[ \t]+/// <summary>\s*</summary>[^\n]*\n", options);
@@ -54,8 +61,15 @@ namespace WhiteSpaceWarrior
 
             return content;
         }
-        static readonly Regex emptyParamRE = new Regex(@"[ \t]+/// <param name=""[^""]*"">\s*</param>[^\n]*\n", options);
-        static readonly Regex emptyTypeparamRE = new Regex(@"[ \t]+/// <typeparam name=""[^""]*"">\s*</typeparam>[^\n]*\n", options);
+        static readonly Regex emptyParamRE = new Regex(@"[ \t]+/// <param name\s*=\s*""[^""]*"">\s*</param>[^\n]*\n", options);
+        static readonly Regex emptyTypeparamRE = new Regex(@"[ \t]+/// <typeparam name\s*=\s*""[^""]*"">\s*</typeparam>[^\n]*\n", options);
         static readonly Regex EmptyReturnsRE = new Regex(@"[ \t]+/// <returns>\s*</returns>[^\n]*\n", options);
+
+        static readonly Regex OldStyleMethodSeparator = new Regex(@"(\r?\n){2,}[ \t]*/////+[ \t]*\r?\n(\r?\n)+", options);
+        //static readonly Regex OldStyleMethodSeparatorPreprocessorDirectives = new Regex(@"(?<preprocessorDirectives>(#if|#region) \w*[ \t]*(\r?\n))[ \t]*/////+[ \t]*\r?\n(\r?\n)+", options);
+        //static readonly Regex OldStyleMethodSeparatorEndPreprocessorDirectives = new Regex(@"(\r?\n){2,}[ \t]*/////+[ \t]*\r?\n[ \t]*(?<end>(#endif|#endregion))", options);
+        static readonly Regex OldStyleMethodSeparatorPreprocessorDirectives = new Regex(@"(?<=(#if|#region) \w*[ \t]*(\r?\n))[ \t]*/////+[ \t]*\r?\n(\r?\n)+", options);
+        static readonly Regex OldStyleMethodSeparatorEndPreprocessorDirectives = new Regex(@"(\r?\n){2,}[ \t]*/////+[ \t]*\r?\n[ \t]*(?<end>(#endif|#endregion))", options);
+
     }
 }
