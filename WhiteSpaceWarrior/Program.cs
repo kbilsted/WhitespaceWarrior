@@ -29,6 +29,8 @@ LICENSE
         [Option(CommandOptionType.SingleValue, ShortName = "v", Description ="Either use 0 or 1")]
         public int Verbosity { get; }
 
+        [Option(CommandOptionType.SingleValue, Description = "Skip removing #region")]
+        public bool SkipRegions { get; }
 
         bool showFilesWhenProcessing = false;
         bool printOnlyChangedFiles = false;
@@ -61,7 +63,7 @@ LICENSE
             }
         }
 
-        private static int PrintAndCompress(bool showFilesWhenProcessing, bool printOnlyChangedFiles, string path)
+        private int PrintAndCompress(bool showFilesWhenProcessing, bool printOnlyChangedFiles, string path)
         {
             if (showFilesWhenProcessing)
                 Console.Write($"{">>>",5} {path}      ");
@@ -78,7 +80,7 @@ LICENSE
             return linesReduced;
         }
 
-        private static int CompressFile(string path)
+        private int CompressFile(string path)
         {
             var isUtf8Bom = IsUtf8Bom(path);
 
@@ -86,7 +88,7 @@ LICENSE
             var file = File.ReadAllText(path, enc);
             var lines = file.Count(x => x == '\n');
 
-            var newFile = new Compressors().Compress(file);
+            var newFile = new Compressors(new CompressOptions(SkipRegions)).Compress(file);
 
             if (newFile.Length != file.Length)
             {

@@ -5,8 +5,15 @@ namespace WhiteSpaceWarrior
 {
     public class Compressors
     {
-        private static RegexOptions options = RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.CultureInvariant;
-        private static RegexOptions optionsIgnoreCase = options | RegexOptions.IgnoreCase;
+        public CompressOptions Options { get; }
+
+        public Compressors(CompressOptions options)
+        {
+            Options = options;
+        }
+
+        static RegexOptions options = RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.CultureInvariant;
+        static RegexOptions optionsIgnoreCase = options | RegexOptions.IgnoreCase;
 
         public string Compress(string content)
         {

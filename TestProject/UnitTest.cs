@@ -7,7 +7,7 @@ namespace Tests
     {
         static string Compress(string content)
         {
-            var compressed = new Compressors().Compress(content);
+            var compressed = new Compressors(new CompressOptions(false)).Compress(content);
             return compressed.Trim();
         }
 
