@@ -17,15 +17,19 @@ namespace WhiteSpaceWarrior
 
         public string Compress(string content)
         {
+            content = OldStyleMethodSeparators(content); // must be before #region removal
+
+            content = RegionStartEndRE.Replace(content, "");
             content = CompressProperties(content);
             content = VersionHistoryRE.Replace(content, "");
 
             content = CompressParam(content);
             content = EmptyReturnsRE.Replace(content, "");
-            content = OldStyleMethodSeparators(content);
             content = CompressSummmary(content);
             return content;
         }
+
+        static readonly  Regex RegionStartEndRE = new Regex("[ \t]*(#region([ \t]*\\w*)+|#endregion[ \t]*)(\r?\n|\\Z)", options);
 
         static readonly Regex OldStyleMethodSeparator = new Regex(@"(\r?\n){2,}[ \t]*/////+[ \t]*\r?\n(\r?\n)+", options);
         static readonly Regex OldStyleMethodSeparatorPreprocessorDirectives = new Regex(@"(?<=(#if|#region) \w*[ \t]*(\r?\n))[ \t]*/////+[ \t]*\r?\n(\r?\n)+", options);

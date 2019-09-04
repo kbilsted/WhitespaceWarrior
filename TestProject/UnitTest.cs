@@ -128,9 +128,7 @@ string MyProperty
 
         static foo";
 
-            Assert.AreEqual(@"#region GetName
-
-        static foo", Compress(code));
+            Assert.AreEqual(@"static foo", Compress(code));
 
         }
 
@@ -165,13 +163,10 @@ string MyProperty
 
             Assert.AreEqual(@"}
 
-#endregion
 
         static foo", Compress(code));
 
         }
-
-
 
         [Test]
         public void OldStyleSeparator_spaced_lines_are_not_matched()
@@ -184,6 +179,32 @@ string MyProperty
 
             Assert.AreEqual(code.Trim(), Compress(code));
         }
+
+
+        [Test]
+        public void Regions_are_removed_when_endregion_is_last_part_of_the_file()
+        {
+            var code = @"
+#region private variables
+    int i;
+#endregion";
+
+            Assert.AreEqual("int i;", Compress(code)); ;
+        }
+
+        [Test]
+        public void Regions_are_removed_when_endregion_is_somewhere_in_the_file()
+        {
+            var code = @"
+#region private variables
+    int i;
+#endregion
+    int j;";
+
+            Assert.AreEqual(@"int i;
+    int j;", Compress(code)); ;
+        }
+
 
     }
 }

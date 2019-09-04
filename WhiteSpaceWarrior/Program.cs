@@ -29,7 +29,7 @@ VERSION
 
         [RegularExpression("0|1")]
         [Option(CommandOptionType.SingleValue, ShortName = "v", Description ="Either use 0 or 1")]
-        public int Verbosity { get; }
+        public int? Verbosity { get; }
 
         [Option(CommandOptionType.NoValue, Description = "Skip removing #region")]
         public bool SkipRegions { get; }

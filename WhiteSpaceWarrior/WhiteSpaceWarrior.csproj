@@ -2,19 +2,32 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
-    <NullableReferenceTypes>true</NullableReferenceTypes>
-    <Nullable>enable</Nullable>
-    <LangVersion>8.0</LangVersion>
-    <WarningsAsErrors>true</WarningsAsErrors>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <StartupObject>WhiteSpaceWarrior.Program</StartupObject>
     <Copyright>Kasper B. Graversen</Copyright>
     <Company>KBG Inc.</Company>
     <Authors>Kasper B. Graversen</Authors>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/kbilsted/WhitespaceWarrior</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/kbilsted/WhitespaceWarrior</RepositoryUrl>
+    <Version>0.0.2</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  
+   <PackAsTool>true</PackAsTool>
+   <RootNamespace>WhiteSpaceWarrior</RootNamespace>
+   <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
