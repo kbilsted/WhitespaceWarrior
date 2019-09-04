@@ -14,8 +14,10 @@ namespace WhiteSpaceWarrior
     This command strips unnecesarry cruft from c# files.
 
 LICENSE
-    Freeware - (c) Kasper B. Graversen 2019"
-        )    ]
+    Freeware - (c) Kasper B. Graversen 2019
+
+VERSION
+    v0.02")]
     class Program
     {
         public static int Main(string[] args)
@@ -23,13 +25,13 @@ LICENSE
 
         [Required]
         [Argument(0, Description = "The path from which to recursevely compress cs files")]
-        public string? Path { get; }
+        public string Path { get; }
 
         [RegularExpression("0|1")]
         [Option(CommandOptionType.SingleValue, ShortName = "v", Description ="Either use 0 or 1")]
         public int Verbosity { get; }
 
-        [Option(CommandOptionType.SingleValue, Description = "Skip removing #region")]
+        [Option(CommandOptionType.NoValue, Description = "Skip removing #region")]
         public bool SkipRegions { get; }
 
         bool showFilesWhenProcessing = false;
