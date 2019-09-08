@@ -7,13 +7,14 @@ Remove superfluous code lines to improve readability
 	Usage: WhiteSpaceWarrior [options] <Path>
 
 	Arguments:
-	  Path                        The path from which to recursevely compress cs files
+	  Path                             The path from which to recursevely compress cs files
 
 	Options:
-	  -v|--verbosity <VERBOSITY>  Either use 0 or 1
-	  -s|--skip-regions           Skip removing #region
-	  -?|-h|--help                Show help information
-
+	  --version                        Show version information
+	  -v|--verbosity <VERBOSITY>       Set verbosity level
+	  -rr|--remove-regions             Remove #region
+	  -rt|--remove-tags <REMOVE_TAGS>  Remove <tag> in /// sections. Can be specified multiple times
+	  -?|-h|--help                     Show help information
 
 ## run as dotnet core tool
 

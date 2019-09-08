@@ -2,11 +2,13 @@
 {
     public class CompressOptions
     {
-        public bool SkipRegions { get; }
+        public string[] RemoveCustomTags { get; }
+        public bool RemoveRegions { get; }
 
-        public CompressOptions(bool skipRegions)
+        public CompressOptions(bool removeRegions, string[] removeCustomTags)
         {
-            this.SkipRegions = skipRegions;
+            RemoveCustomTags = removeCustomTags;
+            RemoveRegions = removeRegions;
         }
     }
 }

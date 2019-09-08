@@ -7,7 +7,11 @@ namespace Tests
     {
         static string Compress(string content)
         {
-            var compressed = new Compressors(new CompressOptions(false)).Compress(content);
+            var compressed = new Compressors(new Options()
+            {
+                RemoveRegions = true,
+                RemoveTags = new string[] {"revision"},
+            }).Compress(content);
             return compressed.Trim();
         }
 
@@ -205,6 +209,19 @@ string MyProperty
     int j;", Compress(code)); ;
         }
 
+        [Test]
+        public void Remove_custom_tags_with_eager_matching()
+        {
+            var code = @"
+            /// <revision version=""6.11.20"" date=""2015-09-19"" >
+            /// implements nu interface 
+            /// runs in singleinstance mode with dynamic recesions
+            /// </revision>
+            int i;
+            /// fake do not match </revision>";
 
+            Assert.AreEqual(@"int i;
+            /// fake do not match </revision>", Compress(code)); ;
+        }
     }
 }

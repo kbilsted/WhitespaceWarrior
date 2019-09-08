@@ -1,33 +1,61 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace WhiteSpaceWarrior
 {
     public class Compressors
     {
-        public CompressOptions Options { get; }
+        Options Options { get; }
 
-        public Compressors(CompressOptions options)
+        public Compressors(Options options)
         {
             Options = options;
         }
 
-        static RegexOptions options = RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.CultureInvariant;
-        static RegexOptions optionsIgnoreCase = options | RegexOptions.IgnoreCase;
+        static readonly RegexOptions options = RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.CultureInvariant;
+        static readonly RegexOptions optionsIgnoreCase = options | RegexOptions.IgnoreCase;
 
         public string Compress(string content)
         {
             content = OldStyleMethodSeparators(content); // must be before #region removal
 
-            content = RegionStartEndRE.Replace(content, "");
+            if (Options.RemoveRegions)
+                content = RegionStartEndRE.Replace(content, "");
+
             content = CompressProperties(content);
             content = VersionHistoryRE.Replace(content, "");
 
             content = CompressParam(content);
             content = EmptyReturnsRE.Replace(content, "");
             content = CompressSummmary(content);
+
+            content = RemoveTags(content);
+
             return content;
         }
+
+        private static Regex[] RemoveTagRegexs = null;
+
+        private string RemoveTags(string content)
+        {
+            if (RemoveTagRegexs == null)
+            {
+                string RemoveTagString = (@"[ \t]*///[ \t]*<[ \t]*{0}.*?</{0}>[ \t]*\r?\n");
+                RemoveTagRegexs = Options.RemoveTags
+                    .Select(x => new Regex((string.Format(RemoveTagString, x)), options))
+                    .ToArray();
+            }
+
+            foreach (var tag in RemoveTagRegexs)
+            {
+                content = tag.Replace(content, "");
+            }
+
+            return content;
+        }
+
+
 
         static readonly  Regex RegionStartEndRE = new Regex("[ \t]*(#region([ \t]*\\w*)+|#endregion[ \t]*)(\r?\n|\\Z)", options);
 

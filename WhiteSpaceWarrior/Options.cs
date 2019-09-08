@@ -14,43 +14,52 @@ namespace WhiteSpaceWarrior
     This command strips unnecesarry cruft from c# files.
 
 LICENSE
-    Freeware - (c) Kasper B. Graversen 2019
+    Freeware - (c) Kasper B. Graversen 2019"
 
-VERSION
-    v0.02")]
-    class Program
+    )]
+    [VersionOption("0.03")]
+    public class Options
     {
-        public static int Main(string[] args)
-            => CommandLineApplication.Execute<Program>(args);
-
         [Required]
         [Argument(0, Description = "The path from which to recursevely compress cs files")]
-        public string Path { get; }
+        public string Path { get; set; }
 
-        [RegularExpression("0|1")]
-        [Option(CommandOptionType.SingleValue, ShortName = "v", Description ="Either use 0 or 1")]
-        public int? Verbosity { get; }
+        [Option(ShortName = "v", Description = "Set verbosity level")]
+        public VerbosityLevel Verbosity { get; set; }
 
-        [Option(CommandOptionType.NoValue, Description = "Skip removing #region")]
-        public bool SkipRegions { get; }
+        [Option(CommandOptionType.NoValue, ShortName = "rr", Description = "Remove #region")]
+        public bool RemoveRegions { get; set; }
 
-        bool showFilesWhenProcessing = false;
-        bool printOnlyChangedFiles = false;
+        [Option(CommandOptionType.MultipleValue, ShortName = "rt", Description = "Remove <tag> in /// sections. Can be specified multiple times")]
+        public string[] RemoveTags { get; set; }
 
         private void OnExecute()
         {
+            new Program(this).Execute();
+        }
+    }
+
+    class Program
+    {
+        public static int Main(string[] args)
+            => CommandLineApplication.Execute<Options>(args);
+
+        private readonly Options options;
+
+        public Program(Options options)
+        {
+            this.options = options;
+        }
+
+        public void Execute()
+        {
             try
             {
-                if (Verbosity == 1)
-                    showFilesWhenProcessing = true;
-                if (Verbosity == 0)
-                    printOnlyChangedFiles = true;
-
                 int totalLinesReduced = 0;
 
-                foreach (var path in Directory.EnumerateFiles(Path, "*.cs", SearchOption.AllDirectories))
+                foreach (var path in Directory.EnumerateFiles(options.Path, "*.cs", SearchOption.AllDirectories))
                 {
-                    var linesReduced = PrintAndCompress(showFilesWhenProcessing, printOnlyChangedFiles, path);
+                    var linesReduced = PrintAndCompress(path);
 
                     totalLinesReduced += linesReduced;
                 }
@@ -65,16 +74,17 @@ VERSION
             }
         }
 
-        private int PrintAndCompress(bool showFilesWhenProcessing, bool printOnlyChangedFiles, string path)
+        private int PrintAndCompress(string path)
         {
-            if (showFilesWhenProcessing)
+            if (options.Verbosity==VerbosityLevel.ShowAllFiles)
                 Console.Write($"{">>>",5} {path}      ");
 
             var linesReduced = CompressFile(path);
 
             Console.SetCursorPosition(0, Console.CursorTop);
 
-            if (showFilesWhenProcessing || (linesReduced != 0 && printOnlyChangedFiles))
+            if (options.Verbosity == VerbosityLevel.ShowAllFiles 
+                || (linesReduced != 0 && options.Verbosity==VerbosityLevel.ShowOnlyChangedFiles))
             {
                 Console.WriteLine($"{linesReduced,5} {path}");
             }
@@ -90,7 +100,7 @@ VERSION
             var file = File.ReadAllText(path, enc);
             var lines = file.Count(x => x == '\n');
 
-            var newFile = new Compressors(new CompressOptions(SkipRegions)).Compress(file);
+            var newFile = new Compressors(options).Compress(file);
 
             if (newFile.Length != file.Length)
             {
