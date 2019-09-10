@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <targetframeworks>netcoreapp2.1;net452;net472</targetframeworks>
     <StartupObject>WhiteSpaceWarrior.Program</StartupObject>
     <Copyright>Kasper B. Graversen</Copyright>
     <Company>KBG Inc.</Company>
@@ -11,12 +11,12 @@
     <PackageProjectUrl>https://github.com/kbilsted/WhitespaceWarrior</PackageProjectUrl>
     <RepositoryUrl>https://github.com/kbilsted/WhitespaceWarrior</RepositoryUrl>
     <Version>1.0.0</Version>
+    <RootNamespace>WhiteSpaceWarrior</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  
-   <PackAsTool>true</PackAsTool>
-   <RootNamespace>WhiteSpaceWarrior</RootNamespace>
-   <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
+    <PackAsTool>true</PackAsTool>
   </PropertyGroup>
 
   <ItemGroup>
