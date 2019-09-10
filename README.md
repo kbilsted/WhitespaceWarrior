@@ -2,6 +2,66 @@
 Remove superfluous code lines to improve readability
 
 
+# Example
+
+The code
+
+
+        /// <summary>
+        /// </summary>
+        public class Calculator
+        {
+
+            #region Properties
+            /// <summary>
+            /// Usage count
+            /// </summary>
+            private int CalculationCount
+            {
+                get;
+                set;
+            }
+            #endregion
+
+            ///////////////////////////////////////////////
+
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <typeparam name="T"></typeparam>
+            /// <param name="a"></param>
+            /// <param name="b"></param>
+            /// <returns></returns>
+            public int Add<T>(int a, int b)
+            {
+
+                CalculationCount++;
+                return a + b;
+
+            }
+
+
+        }
+
+
+Becomes
+
+        public class Calculator
+        {
+            /// <summary> Usage count </summary>
+            private int CalculationCount { get; set; }
+
+            public int Add<T>(int a, int b)
+            {
+                CalculationCount++;
+                return a + b;
+            }
+        }
+
+
+
+
 # Run the tool
 
 	Usage: WhiteSpaceWarrior [options] <Path>

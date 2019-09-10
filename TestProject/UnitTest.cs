@@ -15,6 +15,102 @@ namespace Tests
             return compressed.Trim();
         }
 
+        /// <summary>
+        /// </summary>
+        public class Calculator
+        {
+
+            #region Properties
+            /// <summary>
+            /// Usage count
+            /// </summary>
+            private int CalculationCount
+            {
+                get;
+                set;
+            }
+            #endregion
+
+            ///////////////////////////////////////////////
+
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <typeparam name="T"></typeparam>
+            /// <param name="a"></param>
+            /// <param name="b"></param>
+            /// <returns></returns>
+            public int Add<T>(int a, int b)
+            {
+
+                CalculationCount++;
+                return a + b;
+
+            }
+
+
+        }
+
+
+        [Test]
+        public void Showcase_all_features()
+        {
+            var code = @"
+
+        /// <summary>
+        /// </summary>
+        public class Calculator
+        {
+
+            #region Properties
+            /// <summary>
+            /// Usage count
+            /// </summary>
+            private int CalculationCount
+            {
+                get;
+                set;
+            }
+            #endregion
+
+            ///////////////////////////////////////////////
+
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <typeparam name=""T""></typeparam>
+            /// <param name=""a""></param>
+            /// <param name=""b""></param>
+            /// <returns></returns>
+            public int Add<T>(int a, int b)
+            {
+
+                CalculationCount++;
+                return a + b;
+
+            }
+
+
+        }";
+
+            var compressed = Compress(code);
+            Assert.AreEqual(@"public class Calculator
+        {
+            /// <summary> Usage count </summary>
+            private int CalculationCount { get; set; }
+
+            public int Add<T>(int a, int b)
+            {
+                CalculationCount++;
+                return a + b;
+            }
+        }", compressed);
+        }
+
+
+
         [Test]
         public void Summary_0_space()
         {
