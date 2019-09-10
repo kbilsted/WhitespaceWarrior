@@ -39,28 +39,42 @@ namespace Tests
         }
 
         [Test]
-        public void Remove_empty_lines_after_curlyend_when_next_char_is_curlyend()
+        public void Remove_empty_lines_after_curly_start()
         {
             var code = @"
-                }
+                {
+
+
+
+                    int i;";
+
+            Assert.AreEqual(@"{
+                    int i;", Compress(code));
+        }
+
+        [Test]
+        public void Remove_empty_lines_before_curlyend()
+        {
+            var code = @"
+                ;
 
 
 
             }";
 
-            Assert.AreEqual(@"}
+            Assert.AreEqual(@";
             }", Compress(code));
         }
 
         [Test]
-        public void Remove_empty_line_after_curlyend_when_next_char_is_curlyend()
+        public void Remove_empty_line_before_curlyend()
         {
             var code = @"
-                }
+                ;
 
             }";
 
-            Assert.AreEqual(@"}
+            Assert.AreEqual(@";
             }", Compress(code));
         }
 

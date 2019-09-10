@@ -110,13 +110,13 @@ namespace WhiteSpaceWarrior
         static readonly Regex EmptyReturnsRE = new Regex(@"[ \t]+/// <returns>\s*</returns>[^\n]*\n", options);
 
 
-        static readonly Regex EmptyNewlineAfterCurlyStart = new Regex(@"{[ \t]*\r?\n([ \t]*\r?\n)+", options);
-        static readonly Regex EmptyNewlineAfterCurlyEndFollowedByCurlyEnd = new Regex(@"}[ \t]*\r?\n([ \t]*\r?\n)+(?<indentedCurly>[ \t]*})", options);
+        static readonly Regex EmptyNewlineAfterCurlyStart = new Regex(@"(?<curly>{[ \t]*\r?\n)([ \t]*\r?\n)+", options);
+        static readonly Regex EmptyLinesBeforeCurlyEnd= new Regex(@"\n([ \t]*\r?\n)+(?<indentedCurly>[ \t]*})", options);
 
         string CompressCurlyBracketNewlines(string content)
         {
-            content = EmptyNewlineAfterCurlyStart.Replace(content, "{"+Environment.NewLine);
-            content = EmptyNewlineAfterCurlyEndFollowedByCurlyEnd.Replace(content, "}"+Environment.NewLine+ "${indentedCurly}");
+            content = EmptyNewlineAfterCurlyStart.Replace(content, "${curly}");
+            content = EmptyLinesBeforeCurlyEnd.Replace(content, "\n${indentedCurly}");
 
             return content;
         }
