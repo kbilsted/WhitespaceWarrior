@@ -27,6 +27,60 @@ namespace Tests
         }
 
         [Test]
+        public void Remove_empty_line_after_curly_start()
+        {
+            var code = @"
+                {
+
+                    int i;";
+
+            Assert.AreEqual(@"{
+                    int i;", Compress(code));
+        }
+
+        [Test]
+        public void Remove_empty_lines_after_curlyend_when_next_char_is_curlyend()
+        {
+            var code = @"
+                }
+
+
+
+            }";
+
+            Assert.AreEqual(@"}
+            }", Compress(code));
+        }
+
+        [Test]
+        public void Remove_empty_line_after_curlyend_when_next_char_is_curlyend()
+        {
+            var code = @"
+                }
+
+            }";
+
+            Assert.AreEqual(@"}
+            }", Compress(code));
+        }
+
+        [Test]
+        public void Do_not_remove_empty_line_after_curlyend_when_next_char_is_not_curlyend()
+        {
+            var code = @"
+                }
+
+
+            int i;";
+
+            Assert.AreEqual(@"}
+
+
+            int i;", Compress(code));
+        }
+
+
+        [Test]
         public void Summary_1_space()
         {
             var code = @"
@@ -37,7 +91,6 @@ namespace Tests
 
             Assert.AreEqual("public static string CompressProperties(string file) {", Compress(code));
         }
-
 
         [Test]
         public void Summary_mult_space()
@@ -51,6 +104,7 @@ namespace Tests
 
             Assert.AreEqual("public static string CompressProperties(string file) {", Compress(code));
         }
+
         [Test]
         public void Summary_multiline_comment_are_ignored()
         {
@@ -218,10 +272,10 @@ string MyProperty
             /// runs in singleinstance mode with dynamic recesions
             /// </revision>
             int i;
-            /// fake do not match </revision>";
+            /// do not match </revision>";
 
             Assert.AreEqual(@"int i;
-            /// fake do not match </revision>", Compress(code)); ;
+            /// do not match </revision>", Compress(code)); ;
         }
     }
 }

@@ -32,6 +32,8 @@ namespace WhiteSpaceWarrior
 
             content = RemoveTags(content);
 
+            content = CompressCurlyBracketNewlines(content);
+
             return content;
         }
 
@@ -106,5 +108,17 @@ namespace WhiteSpaceWarrior
         static readonly Regex emptyParamRE = new Regex(@"[ \t]+/// <param name\s*=\s*""[^""]*"">\s*</param>[^\n]*\n", options);
         static readonly Regex emptyTypeparamRE = new Regex(@"[ \t]+/// <typeparam name\s*=\s*""[^""]*"">\s*</typeparam>[^\n]*\n", options);
         static readonly Regex EmptyReturnsRE = new Regex(@"[ \t]+/// <returns>\s*</returns>[^\n]*\n", options);
+
+
+        static readonly Regex EmptyNewlineAfterCurlyStart = new Regex(@"{[ \t]*\r?\n([ \t]*\r?\n)+", options);
+        static readonly Regex EmptyNewlineAfterCurlyEndFollowedByCurlyEnd = new Regex(@"}[ \t]*\r?\n([ \t]*\r?\n)+(?<indentedCurly>[ \t]*})", options);
+
+        string CompressCurlyBracketNewlines(string content)
+        {
+            content = EmptyNewlineAfterCurlyStart.Replace(content, "{"+Environment.NewLine);
+            content = EmptyNewlineAfterCurlyEndFollowedByCurlyEnd.Replace(content, "}"+Environment.NewLine+ "${indentedCurly}");
+
+            return content;
+        }
     }
 }
