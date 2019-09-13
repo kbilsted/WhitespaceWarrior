@@ -1,65 +1,73 @@
 # WhitespaceWarrior
-Remove superfluous code lines to improve readability
+
+![Logo](whitespacewarrior.png)
+
+_Remove cruft from code to improve readability_
 
 
 # Example
 
-The code
+Before going into the details. Let's have a look at a code sample that 
+well represents much of the code that I've experienced in my career.
+You'll notice there is a lot of weird stuff in there. 
+
+```cs
+    /// <summary>
+    /// </summary>
+    public class Calculator
+    {
+
+        #region Properties
+        /// <summary>
+        /// Usage count
+        /// </summary>
+        private int CalculationCount
+        {
+            get;
+            set;
+        }
+        #endregion
+
+        ///////////////////////////////////////////////
 
 
         /// <summary>
+        /// 
         /// </summary>
-        public class Calculator
+        /// <typeparam name="T"></typeparam>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public int Add<T>(int a, int b)
         {
 
-            #region Properties
-            /// <summary>
-            /// Usage count
-            /// </summary>
-            private int CalculationCount
-            {
-                get;
-                set;
-            }
-            #endregion
-
-            ///////////////////////////////////////////////
-
-
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <typeparam name="T"></typeparam>
-            /// <param name="a"></param>
-            /// <param name="b"></param>
-            /// <returns></returns>
-            public int Add<T>(int a, int b)
-            {
-
-                CalculationCount++;
-                return a + b;
-
-            }
-
+            CalculationCount++;
+            return a + b;
 
         }
 
 
-Becomes
+    }
+```
 
-        public class Calculator
+Reformatting it with the whitespacewarrior it becomes
+
+```cs
+    public class Calculator
+    {
+        /// <summary> Usage count </summary>
+        private int CalculationCount { get; set; }
+
+        public int Add<T>(int a, int b)
         {
-            /// <summary> Usage count </summary>
-            private int CalculationCount { get; set; }
-
-            public int Add<T>(int a, int b)
-            {
-                CalculationCount++;
-                return a + b;
-            }
+            CalculationCount++;
+            return a + b;
         }
+    }
+```
 
-
+Of course the example is a show case of the powers of the white space warrior. That being said
+it is still a reduction from 36 lines to just 11 lines! Making the code *much* easier to read and absorb. 
 
 
 # Run the tool
