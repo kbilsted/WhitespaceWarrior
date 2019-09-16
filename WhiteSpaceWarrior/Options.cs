@@ -35,6 +35,9 @@ LICENSE
         [Option(CommandOptionType.MultipleValue, ShortName = "rt", Description = "Remove <tag> in /// sections. Can be specified multiple times")]
         public string[] RemoveTags { get; set; } = new string[0];
 
+        [Option(CommandOptionType.NoValue, ShortName = "nl", Description = "Don't show logo")]
+        public bool NoLogo { get; set; }
+
         private void OnExecute()
         {
             new Program(this).Execute();

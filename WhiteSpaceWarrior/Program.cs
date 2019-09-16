@@ -22,6 +22,9 @@ namespace WhiteSpaceWarrior
         {
             try
             {
+                if (!options.NoLogo)
+                    ShowLogo();
+
                 int totalLinesReduced = 0;
 
                 foreach (var path in Directory.EnumerateFiles(options.Path, "*.cs", SearchOption.AllDirectories))
@@ -32,7 +35,7 @@ namespace WhiteSpaceWarrior
                 }
 
                 Console.WriteLine();
-                Console.WriteLine($"Total lines reduced: {totalLinesReduced}");
+                Console.WriteLine($"Lines reduced: {totalLinesReduced}");
             }
             catch (Exception e)
             {
@@ -96,5 +99,46 @@ namespace WhiteSpaceWarrior
             return isUtf8Bom;
         }
 
+
+        void ShowLogo()
+        {
+            var logo = @"
+                             &@@@@@@                                 
+                           @@@@@@@@@@@@@@                            
+ @@@                      @@@          @@@@&                         
+  @@@@                    @@              @@@@                       
+    @@@@              @@@@@@@@@@            @@@@                     
+     @@@             @@@&     @@@             @@@                    
+     @@@            @@@        @@&             @@@                   
+     @@@            @@@ @@&&@@ @@@             @@@                   
+     @@@           @@@@@@@@@@@@@@@&             @@@                  
+     @@@         @@@@@          @@@@@           @@@                  
+     @@@       @@@@                @@@@          @@@                 
+     @@@      @@@                    @@@         @@@                 
+     @@@     @@@  @@@ @@@             @@@        @@@                 
+     @@@    @@@   @@@ @@@              @@@        @@@                
+     @@@    &@@                        @@@        @@@                
+     @@@    &@@ @@@      @@@           @@@        @@@                
+     @@@    &@@  @@@@@@@@@@            @@@         @@@               
+     @@@    &@@                        @@@         @@@               
+     @@@    &@@@@@@@@@@@@@@@@@@@@@@@@@@@@@          @@@              
+     @@@    &@@                        @@@          @@@              
+     @@@    @@@                        @@@          @@@              
+     @@@    &@@                        @@@           @@@             
+     @@@    @@@                        @@@           @@@             
+     @@@   @@@@@@@@@@                  @@@           @@@             
+     @@@@@@@@     @@@@@                @@@            @@@            
+     @@@@@   @@@@@@  @@@@              @@@     @@@@@@@@@@@@@@@@@     
+     @@@@  @@@@@@@@@@  @@@             @@@    @@@             @@@    
+     @@@  @@@     @@@@ @@@             @@@  @@@@@@@@@@@@@@@@@@@@@@@  
+     @@@  @@@      @@@ @@@            @@@  @@@                   @@@ 
+      @@@ @@@@   @@@@  @@@@@@@@@@@@@@@@@   @@@@@@@@@@@@@@@@@@@@@@@@@ 
+       @@&  @@@@@@@   @@@                     @@@@@@@@@@@@@@@@@@@    
+        @@@@@      @@@@                                              
+          @@@@@@@@@@@                                                
+";
+
+            Console.WriteLine(logo);
+        }
     }
 }
