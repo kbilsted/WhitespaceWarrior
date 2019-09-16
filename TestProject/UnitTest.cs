@@ -11,6 +11,8 @@ namespace Tests
             {
                 RemoveRegions = true,
                 RemoveTags = new string[] {"revision"},
+                RemoveParamNameUptoNWords = 2,
+                RemoveSummaryUptoNWords = 2,
             }).Compress(content);
             return compressed.Trim();
         }
@@ -31,9 +33,7 @@ namespace Tests
             }
             #endregion
 
-            ///////////////////////////////////////////////
-
-
+            #region Methods
             /// <summary>
             /// 
             /// </summary>
@@ -49,6 +49,24 @@ namespace Tests
 
             }
 
+            ///////////////////////////////////////////////
+
+            /// <summary>
+            /// Minus impl
+            /// </summary>
+            /// <param name="a">A number</param>
+            /// <param name="b">A number</param>
+            /// <returns></returns>
+            public int Minus(int a, int b)
+            {
+
+                CalculationCount++;
+                return a + b;
+
+            }
+
+            #endregion
+
 
         }
 
@@ -57,7 +75,6 @@ namespace Tests
         public void Showcase_all_features()
         {
             var code = @"
-
         /// <summary>
         /// </summary>
         public class Calculator
@@ -74,9 +91,7 @@ namespace Tests
             }
             #endregion
 
-            ///////////////////////////////////////////////
-
-
+            #region Methods
             /// <summary>
             /// 
             /// </summary>
@@ -92,16 +107,39 @@ namespace Tests
 
             }
 
+            ///////////////////////////////////////////////
+
+            /// <summary>
+            /// Minus impl
+            /// </summary>
+            /// <param name=""a"">A number</param>
+            /// <param name=""b"">A number</param>
+            /// <returns></returns>
+            public int Minus(int a, int b)
+            {
+
+                CalculationCount++;
+                return a + b;
+
+            }
+
+            #endregion
+
 
         }";
 
             var compressed = Compress(code);
             Assert.AreEqual(@"public class Calculator
         {
-            /// <summary> Usage count </summary>
             private int CalculationCount { get; set; }
 
             public int Add<T>(int a, int b)
+            {
+                CalculationCount++;
+                return a + b;
+            }
+
+            public int Minus(int a, int b)
             {
                 CalculationCount++;
                 return a + b;

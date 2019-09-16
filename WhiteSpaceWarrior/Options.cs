@@ -23,6 +23,12 @@ LICENSE
         [Option(ShortName = "v", Description = "Set verbosity level")]
         public VerbosityLevel Verbosity { get; set; }
 
+        [Option(CommandOptionType.SingleValue, ShortName = "rpn", Description = "Remove <param name=\"..\"> descriptions up to N words long. A low number such as \"2\" captures many useless comments.")]
+        public int RemoveParamNameUptoNWords { get; set; } = 0;
+
+        [Option(CommandOptionType.SingleValue, ShortName = "rsn", Description = "Remove <summary> descriptions up to N words long. A low number such as \"2\" captures many useless comments.")]
+        public int RemoveSummaryUptoNWords { get; set; } = 0;
+
         [Option(CommandOptionType.NoValue, ShortName = "rr", Description = "Remove #region")]
         public bool RemoveRegions { get; set; }
 

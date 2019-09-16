@@ -8,9 +8,13 @@ namespace WhiteSpaceWarrior
     {
         Options Options { get; }
 
-        public Compressors(Options options)
+        public Compressors(Options ptions)
         {
-            Options = options;
+            Options = ptions;
+
+            emptyParamRE = new Regex($@"[ \t]+/// <param name\s*=\s*""[^""]*"">\s*(\w*\s*){{0,{Options.RemoveParamNameUptoNWords}}}\.?\s*</param>[^\n]*\n", options);
+            singleLineEmptySummaryRE = new Regex($@"[ \t]+/// <summary>\s*(\w*\s*){{0,{Options.RemoveSummaryUptoNWords}}}\.?\s*</summary>[^\n]*\n", options);
+
         }
 
         static readonly RegexOptions options = RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.CultureInvariant;
@@ -86,7 +90,7 @@ namespace WhiteSpaceWarrior
         static readonly Regex VersionHistoryRE = new Regex(@"( |\t)*#region Version History( |\t)*((?>\s*//[^\n]*))*\s*#endregion( |\t)*(\r\n?|\n)+", optionsIgnoreCase);
 
         static readonly Regex singleLineSummaryRE = new Regex(@"(?<indent>[ \t]+)/// <summary>[ \t]*\r?\n[ \t]+///[ \t]*(?<comment>[^\r\n]*)\r?\n[ \t]+/// </summary>[^\n]*\n", options);
-        static readonly Regex singleLineEmptySummaryRE = new Regex(@"[ \t]+/// <summary>\s*</summary>[^\n]*\n", options);
+        Regex singleLineEmptySummaryRE;
         static readonly Regex multilineEmptySummaryRE = new Regex(@"[ \t]+/// <summary>[ \t]*\r?\n([ \t]+///[ \t]*\r?\n)*[ \t]+/// </summary>[^\n]*\n", options);
 
         string CompressSummmary(string content)
@@ -105,7 +109,7 @@ namespace WhiteSpaceWarrior
 
             return content;
         }
-        static readonly Regex emptyParamRE = new Regex(@"[ \t]+/// <param name\s*=\s*""[^""]*"">\s*</param>[^\n]*\n", options);
+        readonly Regex emptyParamRE;
         static readonly Regex emptyTypeparamRE = new Regex(@"[ \t]+/// <typeparam name\s*=\s*""[^""]*"">\s*</typeparam>[^\n]*\n", options);
         static readonly Regex EmptyReturnsRE = new Regex(@"[ \t]+/// <returns>\s*</returns>[^\n]*\n", options);
 
