@@ -56,8 +56,7 @@ public class Calculator
     {
 
         CalculationCount++;
-        return a + b;
-
+        return a - b;
     }
 
     #endregion
@@ -69,7 +68,7 @@ public class Calculator
 Reformatting it with the whitespacewarrior it becomes
 
 ```cs
- public class Calculator
+public class Calculator
 {
     private int CalculationCount { get; set; }
 
@@ -82,13 +81,13 @@ Reformatting it with the whitespacewarrior it becomes
     public int Minus(int a, int b)
     {
         CalculationCount++;
-        return a + b;
+        return a - b;
     }
 }
 ```
 
 Of course the example is a show case of the powers of the white space warrior. That being said
-it is still a reduction from 36 lines to just 11 lines! Making the code *much* easier to read and absorb. 
+it is still a reduction from _49_ lines to just _16_ lines! Making the code *much* easier to read and absorb. 
 
 Here is a short summary of what kind of whitespace that is cleaned up:
 

@@ -119,8 +119,7 @@ namespace Tests
             {
 
                 CalculationCount++;
-                return a + b;
-
+                return a - b;
             }
 
             #endregion
@@ -142,7 +141,7 @@ namespace Tests
             public int Minus(int a, int b)
             {
                 CalculationCount++;
-                return a + b;
+                return a - b;
             }
         }", compressed);
         }
