@@ -275,11 +275,11 @@ namespace Tests
         {
             var code = @"
                 /// <summary>
-                /// foo boo
+                /// foo boo baz
                 /// </summary>
                 public static string CompressProperties(string file) {";
 
-            Assert.AreEqual(@"/// <summary> foo boo </summary>
+            Assert.AreEqual(@"/// <summary> foo boo baz </summary>
                 public static string CompressProperties(string file) {", Compress(code));
         }
 
