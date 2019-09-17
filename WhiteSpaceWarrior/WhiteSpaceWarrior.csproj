@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <targetframeworks>netcoreapp2.1;net452;net472</targetframeworks>
+    <targetframeworks>netcoreapp2.1</targetframeworks>
     <StartupObject>WhiteSpaceWarrior.Program</StartupObject>
     <Copyright>Kasper B. Graversen</Copyright>
     <Company>KBG Inc.</Company>
@@ -11,17 +11,20 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/kbilsted/WhitespaceWarrior</PackageProjectUrl>
     <RepositoryUrl>https://github.com/kbilsted/WhitespaceWarrior</RepositoryUrl>
-    <Version>1.0.0</Version>
     <RootNamespace>WhiteSpaceWarrior</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <ApplicationIcon>whitespacewarrior.ico</ApplicationIcon>
     <PackageIconUrl>https://raw.githubusercontent.com/kbilsted/WhitespaceWarrior/master/whitespacewarrior.png</PackageIconUrl>
     <PackageTags>beautifier formatter clean-code</PackageTags>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
     <PackAsTool>true</PackAsTool>
   </PropertyGroup>
+
+  <!--<PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
+    <PackAsTool>true</PackAsTool>
+  </PropertyGroup>-->
 
   <ItemGroup>
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.4" />

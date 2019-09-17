@@ -4,6 +4,12 @@
 
 _Remove whitespace and cruft from source code, maing it easier to read and absorb._
 
+# Installation
+
+    > dotnet tool install --global WhiteSpaceWarrior 
+
+Then you can use the command `WhiteSpaceWarrior` in your shell.
+
 
 # C# Example
 
@@ -97,12 +103,13 @@ Here is a short summary of what kind of whitespace that is cleaned up:
 * Regions `#region` and `#endregion`
 * Newlines around properties (getters, setters) and also reordering of properties so `get` is placed before `set`.
 
-# Other language support
+
+# Language support
 
 At the moment only C# is supported. However, I'm very interested in working toghether with people wanting whitespacewarrior-support for their favorite language!
 
-# Running the tool
 
+# Running the tool
 
 	Usage: WhiteSpaceWarrior [options] <Path>
 
@@ -120,12 +127,10 @@ At the moment only C# is supported. However, I'm very interested in working togh
 	  -?|-h|--help                                                          Show help information
 
 
-## run as dotnet core tool
 
-	> dotnet .\WhiteSpaceWarrior\bin\Debug\netcoreapp2.1\WhiteSpaceWarrior.dll
+# Testing 
 
-
-## Install as a power tool 
+### Install as a power tool 
 
     > dotnet tool install --add-source C:\src\WhitespaceWarrior\WhiteSpaceWarrior\bin\Debug\ --tool-path tools WhiteSpaceWarrior
 
