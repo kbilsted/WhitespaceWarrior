@@ -7,6 +7,7 @@
     <Copyright>Kasper B. Graversen</Copyright>
     <Company>KBG Inc.</Company>
     <Authors>Kasper B. Graversen</Authors>
+    <Description>Remove whitespace and cruft from source code, maing it easier to read and absorb.</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/kbilsted/WhitespaceWarrior</PackageProjectUrl>
     <RepositoryUrl>https://github.com/kbilsted/WhitespaceWarrior</RepositoryUrl>
@@ -14,6 +15,8 @@
     <RootNamespace>WhiteSpaceWarrior</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <ApplicationIcon>whitespacewarrior.ico</ApplicationIcon>
+    <PackageIconUrl>https://raw.githubusercontent.com/kbilsted/WhitespaceWarrior/master/whitespacewarrior.png</PackageIconUrl>
+    <PackageTags>beautifier formatter clean-code</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">

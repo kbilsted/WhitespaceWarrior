@@ -7,7 +7,7 @@ namespace Tests
     {
         static string Compress(string content)
         {
-            var compressed = new Compressors(new Options()
+            var compressed = new CSharpCompressors(new Options()
             {
                 RemoveRegions = true,
                 RemoveTags = new string[] {"revision"},

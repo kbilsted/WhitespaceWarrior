@@ -2,10 +2,10 @@
 
 ![Logo](whitespacewarrior.png)
 
-_Remove cruft from code to improve code readability_
+_Remove whitespace and cruft from source code, maing it easier to read and absorb._
 
 
-# Example
+# C# Example
 
 Before going into the details. Let's have a look at a code sample that 
 well represents much of the code that I've experienced in my career.
@@ -94,9 +94,12 @@ Here is a short summary of what kind of whitespace that is cleaned up:
 * Empty lines around `{` and `}`
 * Empty or short `<summary>`,`<param name="..">`, `<returns>`, ...
 * Shortening short `<summary>` down to 1 line from the standard 3 lines
-* `#region`
-* Newlines around properties (getters, setters)
+* Regions `#region` and `#endregion`
+* Newlines around properties (getters, setters) and also reordering of properties so `get` is placed before `set`.
 
+# Other language support
+
+At the moment only C# is supported. However, I'm very interested in working toghether with people wanting whitespacewarrior-support for their favorite language!
 
 # Running the tool
 
@@ -112,7 +115,7 @@ Here is a short summary of what kind of whitespace that is cleaned up:
 	  -rpn|--remove-param-name-upto-nwords <REMOVE_PARAM_NAME_UPTO_NWORDS>  Remove <param name=".."> descriptions up to N words long. A low number such as "2" captures many useless comments.
 	  -rsn|--remove-summary-upto-nwords <REMOVE_SUMMARY_UPTO_NWORDS>        Remove <summary> descriptions up to N words long. A low number such as "2" captures many useless comments.
 	  -rr|--remove-regions                                                  Remove #region
-	  -rt|--remove-tags <REMOVE_TAGS>                                       Remove <tag> in /// sections. Can be specified multiple times
+	  -rt|--remove-tags <REMOVE_TAGS>                                       Remove <tag> in ///-sections. Can be specified multiple times
 	  -nl|--no-logo                                                         Don't show logo
 	  -?|-h|--help                                                          Show help information
 

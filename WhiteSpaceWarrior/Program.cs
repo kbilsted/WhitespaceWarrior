@@ -70,7 +70,7 @@ namespace WhiteSpaceWarrior
             var file = File.ReadAllText(path, enc);
             var lines = file.Count(x => x == '\n');
 
-            var newFile = new Compressors(options).Compress(file);
+            var newFile = new CSharpCompressors(options).Compress(file);
 
             if (newFile.Length != file.Length)
             {

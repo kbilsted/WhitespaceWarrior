@@ -4,11 +4,11 @@ using System.Text.RegularExpressions;
 
 namespace WhiteSpaceWarrior
 {
-    public class Compressors
+    public class CSharpCompressors
     {
         Options Options { get; }
 
-        public Compressors(Options ptions)
+        public CSharpCompressors(Options ptions)
         {
             Options = ptions;
 
@@ -65,9 +65,9 @@ namespace WhiteSpaceWarrior
 
         static readonly  Regex RegionStartEndRE = new Regex("[ \t]*(#region([ \t]*\\w*)+|#endregion[ \t]*)(\r?\n|\\Z)", options);
 
-        static readonly Regex OldStyleMethodSeparator = new Regex(@"(\r?\n){2,}[ \t]*/////+[ \t]*\r?\n(\r?\n)+", options);
-        static readonly Regex OldStyleMethodSeparatorPreprocessorDirectives = new Regex(@"(?<=(#if|#region) \w*[ \t]*(\r?\n))[ \t]*/////+[ \t]*\r?\n(\r?\n)+", options);
-        static readonly Regex OldStyleMethodSeparatorEndPreprocessorDirectives = new Regex(@"(\r?\n){2,}[ \t]*/////+[ \t]*\r?\n[ \t]*(?=(#endif|#endregion))", options);
+        static readonly Regex OldStyleMethodSeparator = new Regex(@"(\r?\n){2,}[ \t]*///////+[ \t]*\r?\n(\r?\n)+", options);
+        static readonly Regex OldStyleMethodSeparatorPreprocessorDirectives = new Regex(@"(?<=(#if|#region) \w*[ \t]*(\r?\n))[ \t]*///////+[ \t]*\r?\n(\r?\n)+", options);
+        static readonly Regex OldStyleMethodSeparatorEndPreprocessorDirectives = new Regex(@"(\r?\n){2,}[ \t]*///////+[ \t]*\r?\n[ \t]*(?=(#endif|#endregion))", options);
 
         private static string OldStyleMethodSeparators(string content)
         {
