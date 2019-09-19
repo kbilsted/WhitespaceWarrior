@@ -1,56 +1,11 @@
 # WhitespaceWarrior
 
-_Remove whitespace and other "empty" content from source code, making it easier to read/browse._
+`WhiteSpaceWarrior` is a tool that make scanning code significantly faster by improving the _signal to noice ratio of the code_ 
+- i.e. removing all the stuff you get anoyed about when you speed-read code such as empty lines, empty comments, short meaningles comments.
 
 ![Logo](whitespacewarrior.png)
 
 
-Code is not read like a book. It is not like a fairy tale, where momentum is built up and suddenly you find yourself 
-unable to put down the book. 
-
-Reading code is about _absorbing_ intent and building mental models in your mind.
-I find that I tend to use strategies ranging from reading fast-pased scanning to slower scrutiny of sections. 
-
-
-         fast                        slow 
-       <---------------------------------->
-    Scannning                     Scrutinizing
-
-
-This is important to understand, since when we discuss _code readability_ and decide on initiatives to improve readability, we like only cater for a part of the spectrum. Obviously, reducing the 
-amount of characters in a source code, makes scanning more effective, whereas code scrutiny is much less affected. Here code intentions have bigger effects. See 
-http://firstclassthoughts.co.uk/Tags/Code_Readability.html for advice on improving code readability in general.
-
-So faced with a large code base, how do you improve its readability? It is a balance between providing business value and cleaning up the code. 
-_Effort_ is a key word here. Some code-improving actions require a lot of effort and other much less. Naturally, different actions also yield diffent amount of effects
-on the code base. A low effort initiaitive is code formatting making. A large effort initiative is ensuring test coverage, applying SRP or other design patterns.
-
-We visualize this idea by two graphs. One for each end of the spectrum:
-
-
-              (scanning)                                                (scrutinizing)                 
-                                          
-         ^  Effort                                                   ^  Effort                           
-         |                                                           |                                   
-         |   o TDD                                                   |                        o TDD              
-         |                                                           |                                    
-         |   o Design patterns                                       |               o Design patterns           
-         |                                                           |                                   
-         |   o SRP                                                   |                    o SRP                  
-         |                                                           |                                   
-         |               o reformat                                  |   o reformat                      
-         |                   o whitespacewarrior                     | o whitespacewarrior               
-    -----+-------------------------->                           -----+-------------------------->  
-         |                   Yield                                   |                   Yield           
-         |                                                           |                                   
-                      
-
-So which do you choose? The activity with a high yield requiring a large effort, or do you start with the very low effort activities with a much lesser yield?
-If I can choose an automated tool to do _some_ clean up for me, I'd prefer that any day over a manual effort. And since my tools are automatic work, 
-I can soon after focus on the more laborious initiaitives.
-
-`WhiteSpaceWarrior` is a tool that make scanning code significantly faster by improving the _signal to noice ratio of the code_ 
-- i.e. removing all the stuff you get anoyed about when you speed-read code such as empty lines, empty comments, short meaningles comments.
 
 
 # Installation
@@ -59,12 +14,17 @@ I can soon after focus on the more laborious initiaitives.
 
 Then you can use the command `WhiteSpaceWarrior` in your shell.
 
+Or visit the releases at https://github.com/kbilsted/WhitespaceWarrior/releases
+
+
 
 # C# Example
 
-Before going into the details. Let's have a look at a code sample that 
-well represents much of the code that I've experienced in my career.
-You'll notice there is a lot of weird stuff in there. 
+Let's illustrate the effect of a code base filled with cruft and white space. Of course the example is rigged in the sense
+that it contains example of all the things `whitespacewarrior` is catering for. But you'll notice that with all the stuff
+thats in the way, focus is harder to attain.
+
+The example samples code pieced I've experienced in my career.
 
 ```cs
 /// <summary>
@@ -151,6 +111,67 @@ Here is a short summary of what kind of whitespace that is cleaned up:
 * Shortening short `<summary>` down to 1 line from the standard 3 lines
 * Regions `#region` and `#endregion`
 * Newlines around properties (getters, setters) and also reordering of properties so `get` is placed before `set`.
+
+
+
+
+# Code readability and catering for it
+
+One thing that strikes me, is the different between reading a book and reading code.
+A book has a narative, emotional characters, page numbers and switches beteen building and releasing tension.
+Reading code, on the other hand, is about _absorbing_ intent, building mental models in your mind. Often with 
+great frustration when the code gets too complex.
+
+When we read code, we use techniques ranging from _scanning_ (fast-pased reading), to 
+slow-pased _scrutiny_. 
+
+
+              (code reading spectrum)
+ 
+         fast                        slow 
+       <---------------------------------->
+    Scannning                     Scrutinizing
+
+
+When discussing code readability, it often from the perspective slower-pased reading. I believe we do a great deal of _scanning_. My belief is rooted in a lot of vague facts
+
+  * Predominant use of Mono-spaced fonts (contrary to books!)
+  * Individual preferences with regard to Indent-size and file/folder organization
+  * Predominant use of colors when reading and editing code 
+  * Mild infuriation and/or diffculty in keeping concentration and attaining focus when faced with large portions of text, that do not contribute meaning.
+
+This is important to understand, since when we discuss _code readability_ and deciding on initiatives to improve it, we can not cater for the whole spectrum. Obviously, reducing the 
+amount of characters in a source code, makes scanning more effective, whereas code scrutiny is much less affected. I've compiled a set articles that deal with improving code readability here
+http://firstclassthoughts.co.uk/Tags/Code_Readability.html 
+
+So faced with a large code base, how do you improve its readability? _Effort_ is a key word here. Some code-improving actions require a lot of effort, others not so much.
+Of course, the same goes for the effect on the code base. An example of a low effort initiaitive is code formatting making the code base look simiar in terms of overall structure. 
+An example of a large effort initiative is ensuring test coverage, applying SRP, other design patterns, introducing service orchestration and so on.
+
+To visualize this we need two graphs. One for each end of the spectrum.
+
+
+              (scanning)                                                (scrutinizing)                 
+                                          
+         ^  Effort                                                   ^  Effort                           
+         |                                                           |                                   
+         |   o TDD                                                   |                        o TDD              
+         |                                                           |                                    
+         |   o Design patterns                                       |               o Design patterns           
+         |                                                           |                                   
+         |   o SRP                                                   |                    o SRP                  
+         |                                                           |                                   
+         |               o reformat                                  |   o reformat                      
+         |                   o whitespacewarrior                     | o whitespacewarrior               
+    -----+-------------------------->                           -----+-------------------------->  
+         |                     Yield                                 |                     Yield           
+         |                                                           |                                   
+                      
+
+
+`WhiteSpaceWarrior` is a tool that make scanning code significantly faster by improving the _signal to noice ratio of the code_ 
+- i.e. removing all the stuff you get anoyed about when you speed-read code such as empty lines, empty comments, short meaningles comments.
+
 
 
 # Language support
