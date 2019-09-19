@@ -13,7 +13,7 @@ LICENSE
     Freeware - (c) Kasper B. Graversen 2019"
 
     )]
-    [VersionOption("1.0.1")]
+    [VersionOption("1.0.2")]
     public class Options
     {
         [Required]
@@ -23,11 +23,14 @@ LICENSE
         [Option(ShortName = "v", Description = "Set verbosity level")]
         public VerbosityLevel Verbosity { get; set; }
 
-        [Option(CommandOptionType.SingleValue, ShortName = "rpn", Description = "Remove <param name=\"..\"> descriptions up to N words long. A low number such as \"2\" captures many useless comments.")]
+        [Option(CommandOptionType.SingleValue, ShortName = "rpn", Description = "Remove <param name=\"..\"> descriptions up to N words long.")]
         public int RemoveParamNameUptoNWords { get; set; } = 0;
 
-        [Option(CommandOptionType.SingleValue, ShortName = "rsn", Description = "Remove <summary> descriptions up to N words long. A low number such as \"2\" captures many useless comments.")]
+        [Option(CommandOptionType.SingleValue, ShortName = "rsn", Description = "Remove <summary> descriptions up to N words long.")]
         public int RemoveSummaryUptoNWords { get; set; } = 0;
+
+        [Option(CommandOptionType.SingleValue, ShortName = "rrn", Description = "Remove <remarks> descriptions up to N words long.")]
+        public int RemoveRemarksUptoNWords { get; set; } = 0;
 
         [Option(CommandOptionType.NoValue, ShortName = "rr", Description = "Remove #region")]
         public bool RemoveRegions { get; set; }

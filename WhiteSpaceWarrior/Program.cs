@@ -6,6 +6,12 @@ using McMaster.Extensions.CommandLineUtils;
 
 namespace WhiteSpaceWarrior
 {
+    class Statistics
+    {
+        public int TotalLinesBefore;
+        public int TotalLinesAfter;
+    }
+
     class Program
     {
         public static int Main(string[] args)
@@ -25,17 +31,18 @@ namespace WhiteSpaceWarrior
                 if (!options.NoLogo)
                     ShowLogo();
 
-                int totalLinesReduced = 0;
+                var stats = new Statistics();
 
                 foreach (var path in Directory.EnumerateFiles(options.Path, "*.cs", SearchOption.AllDirectories))
                 {
-                    var linesReduced = PrintAndCompress(path);
-
-                    totalLinesReduced += linesReduced;
+                    PrintAndCompress(path, stats);
                 }
 
                 Console.WriteLine();
-                Console.WriteLine($"Lines reduced: {totalLinesReduced}");
+                var percent = stats.TotalLinesBefore == 0 
+                    ? 0 
+                    : 100M - (stats.TotalLinesAfter / (decimal)stats.TotalLinesBefore * 100M);
+                Console.WriteLine($"Lines Before: {stats.TotalLinesBefore}, after: {stats.TotalLinesAfter}. Reduction: {stats.TotalLinesBefore-stats.TotalLinesAfter} = {percent:.00}%");
             }
             catch (Exception e)
             {
@@ -44,41 +51,47 @@ namespace WhiteSpaceWarrior
             }
         }
 
-        private int PrintAndCompress(string path)
+        private void PrintAndCompress(string path, Statistics stats)
         {
-            if (options.Verbosity==VerbosityLevel.ShowAllFiles)
+            if (options.Verbosity == VerbosityLevel.ShowAllFiles)
                 Console.Write($"{">>>",5} {path}      ");
 
-            var linesReduced = CompressFile(path);
+            var linesReduced = CompressFile(path, stats);
 
             Console.SetCursorPosition(0, Console.CursorTop);
 
-            if (options.Verbosity == VerbosityLevel.ShowAllFiles 
-                || (linesReduced != 0 && options.Verbosity==VerbosityLevel.ShowOnlyChangedFiles))
+            if (options.Verbosity == VerbosityLevel.ShowAllFiles
+                || (linesReduced != 0 && options.Verbosity == VerbosityLevel.ShowOnlyChangedFiles))
             {
                 Console.WriteLine($"{linesReduced,5} {path}");
             }
-
-            return linesReduced;
         }
 
-        private int CompressFile(string path)
+        private int CompressFile(string path, Statistics stats)
         {
             var isUtf8Bom = IsUtf8Bom(path);
 
             var enc = isUtf8Bom ? Encoding.UTF8 : Encoding.GetEncoding("iso-8859-1");
             var file = File.ReadAllText(path, enc);
-            var lines = file.Count(x => x == '\n');
+            int lines = file.Count(x => x == '\n');
 
             var newFile = new CSharpCompressors(options).Compress(file);
 
             if (newFile.Length != file.Length)
             {
                 File.WriteAllText(path, newFile, enc);
-                return lines - newFile.Count(x => x == '\n');
-            }
 
-            return 0;
+                var linesAfter = newFile.Count(x => x == '\n');
+                stats.TotalLinesBefore += lines;
+                stats.TotalLinesAfter += linesAfter;
+                return lines - linesAfter;
+            }
+            else
+            {
+                stats.TotalLinesBefore += lines;
+                stats.TotalLinesAfter += lines;
+                return 0;
+            }
         }
 
         private static bool IsUtf8Bom(string path)

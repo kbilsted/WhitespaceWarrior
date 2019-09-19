@@ -8,10 +8,11 @@
 
 # The impact on code readbility when removing noise from the code
 
-Let's illustrate the effect of a noisy code base. The example is perhaps not a 100% accurate representation of all code bases, however, I've accumulated all the different kinds
-of code noise I've encountered in my career. It also show cases the capabilities of `whitespacewarrior`. 
+Let's illustrate the effect of a noisy code base. The example is perhaps not a 100% accurate representation of your code bases,
+but it does a good job of showing the effect of noisy code. It also serves to show the capabilities of `whitespacewarrior`. 
 
 ```cs
+
 /// <summary>
 /// </summary>
 public class Calculator
@@ -19,8 +20,11 @@ public class Calculator
 
     #region Properties
     /// <summary>
-    /// Usage count
+    /// Compress descriptions to a single line
     /// </summary>
+    /// <remarks>
+    /// Compress descriptions to a single line
+    /// </remarks>
     private int CalculationCount
     {
         get;
@@ -32,9 +36,10 @@ public class Calculator
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name=""T""></typeparam>
-    /// <param name=""a""></param>
-    /// <param name=""b""></param>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <remarks></remarks>
     /// <returns></returns>
     public int Add<T>(int a, int b)
     {
@@ -49,14 +54,18 @@ public class Calculator
     /// <summary>
     /// Minus impl
     /// </summary>
-    /// <param name=""a"">A number</param>
-    /// <param name=""b"">A number</param>
+    /// <param name="a">A number</param>
+    /// <param name="b">A number</param>
+    /// <remarks>
+    /// Very fast
+    /// </remarks>
     /// <returns></returns>
     public int Minus(int a, int b)
     {
 
         CalculationCount++;
         return a - b;
+
     }
 
     #endregion
@@ -65,12 +74,14 @@ public class Calculator
 }
 ```
 
-Let's reformat with `whitespacewarrior`. Notice once all the noise is gone, how much easier it is to attain and keep focus.
-The code is reduced from _49_ lines to just _16_ lines! 
+Let's reformat with `whitespacewarrior`. Notice once all the noise is gone, how much easier it is to attain focus.
+It's no wonder, the code is reduced from _61_ lines to just _17_ lines! 
 
 ```cs
 public class Calculator
 {
+    /// <summary> Compress descriptions to a single line </summary>
+    /// <remarks> Compress descriptions to a single line </remarks>
     private int CalculationCount { get; set; }
 
     public int Add<T>(int a, int b)
@@ -143,7 +154,7 @@ An example of a large effort initiative is ensuring test coverage, applying SRP,
 To visualize this we need two graphs. One for each end of the spectrum of our code reading strategies.
 
 
-              (scanning)                                                 (scrutinizing)                 
+                     (scanning)                                                 (scrutinizing)                 
                                           
          ^  Effort                                                   ^  Effort                           
          |                                                           |                                   
@@ -160,9 +171,10 @@ To visualize this we need two graphs. One for each end of the spectrum of our co
          |                                                           |                                   
          |                                                           |                                   
          |                                                           |                                   
+         |                                                           |                                   
          |                   o whitespacewarrior                     | o whitespacewarrior               
     -----+-------------------------->                           -----+-------------------------->  
-         |                     Readability                           |                     Readability
+         |                      Impact                               |                      Impact
          |                                                           |                                   
                       
 
@@ -181,21 +193,21 @@ However, I'm very interested in working toghether with people wanting whitespace
 
 WhiteSpaceWarrior is very configurable
 
+	Usage: WhiteSpaceWarrior [options] <Path>
 
-    Usage: WhiteSpaceWarrior [options] <Path>
+	Arguments:
+	  Path                                                                  The path from which to recursively compress cs files
 
-    Arguments:
-      Path                                                                  The path from which to recursively compress cs files
-
-    Options:
-      --version                                                             Show version information
-      -v|--verbosity <VERBOSITY>                                            Set verbosity level
-      -rpn|--remove-param-name-upto-nwords <REMOVE_PARAM_NAME_UPTO_NWORDS>  Remove <param name=".."> descriptions up to N words long. A low number such as "2" captures many useless comments.
-      -rsn|--remove-summary-upto-nwords <REMOVE_SUMMARY_UPTO_NWORDS>        Remove <summary> descriptions up to N words long. A low number such as "2" captures many useless comments.
-      -rr|--remove-regions                                                  Remove #region
-      -rt|--remove-tags <REMOVE_TAGS>                                       Remove <tag> in ///-sections. Can be specified multiple times
-      -nl|--no-logo                                                         Don't show logo
-      -?|-h|--help                                                          Show help information
+	Options:
+	  --version                                                             Show version information
+	  -v|--verbosity <VERBOSITY>                                            Set verbosity level
+	  -rpn|--remove-param-name-upto-nwords <REMOVE_PARAM_NAME_UPTO_NWORDS>  Remove <param name=".."> descriptions up to N words long.
+	  -rsn|--remove-summary-upto-nwords <REMOVE_SUMMARY_UPTO_NWORDS>        Remove <summary> descriptions up to N words long.
+	  -rrn|--remove-remarks-upto-nwords <REMOVE_REMARKS_UPTO_NWORDS>        Remove <remarks> descriptions up to N words long.
+	  -rr|--remove-regions                                                  Remove #region
+	  -rt|--remove-tags <REMOVE_TAGS>                                       Remove <tag> in /// sections. Can be specified multiple times
+	  -nl|--no-logo                                                         Don't show logo
+	  -?|-h|--help                                                          Show help information
 
 
 

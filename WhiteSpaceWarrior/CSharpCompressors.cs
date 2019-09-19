@@ -13,8 +13,8 @@ namespace WhiteSpaceWarrior
             Options = ptions;
 
             emptyParamRE = new Regex($@"[ \t]+/// <param name\s*=\s*""[^""]*"">\s*(\w*\s*){{0,{Options.RemoveParamNameUptoNWords}}}\.?\s*</param>[^\n]*\n", options);
+            emptyRemarksRE = new Regex($@"[ \t]+/// <remarks>\s*(\w*\s*){{0,{Options.RemoveRemarksUptoNWords}}}\.?\s*</remarks>[^\n]*\n", options);
             singleLineEmptySummaryRE = new Regex($@"[ \t]+/// <summary>\s*(\w*\s*){{0,{Options.RemoveSummaryUptoNWords}}}\.?\s*</summary>[^\n]*\n", options);
-
         }
 
         static readonly RegexOptions options = RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.CultureInvariant;
@@ -32,6 +32,10 @@ namespace WhiteSpaceWarrior
 
             content = CompressParam(content);
             content = EmptyReturnsRE.Replace(content, "");
+
+            content = singleLineRemarksRE.Replace(content, "${indent}/// <remarks> ${comment} </remarks>" + Environment.NewLine);
+            content = emptyRemarksRE.Replace(content, "");
+
             content = CompressSummmary(content);
 
             content = RemoveTags(content);
@@ -89,7 +93,10 @@ namespace WhiteSpaceWarrior
 
         static readonly Regex VersionHistoryRE = new Regex(@"( |\t)*#region Version History( |\t)*((?>\s*//[^\n]*))*\s*#endregion( |\t)*(\r\n?|\n)+", optionsIgnoreCase);
 
-        static readonly Regex singleLineSummaryRE = new Regex(@"(?<indent>[ \t]+)/// <summary>[ \t]*\r?\n[ \t]+///[ \t]*(?<comment>[^\r\n]*)\r?\n[ \t]+/// </summary>[^\n]*\n", options);
+        private const string singleLineCommentTagRE =
+            @"(?<indent>[ \t]+)/// <{0}>[ \t]*\r?\n[ \t]+///[ \t]*(?<comment>[^\r\n]*)\r?\n[ \t]+/// </{0}>[^\n]*\n";
+        static readonly Regex singleLineSummaryRE = new Regex(string.Format(singleLineCommentTagRE, "summary"), options);
+        static readonly Regex singleLineRemarksRE = new Regex(string.Format(singleLineCommentTagRE, "remarks"), options);
         Regex singleLineEmptySummaryRE;
         static readonly Regex multilineEmptySummaryRE = new Regex(@"[ \t]+/// <summary>[ \t]*\r?\n([ \t]+///[ \t]*\r?\n)*[ \t]+/// </summary>[^\n]*\n", options);
 
@@ -109,7 +116,7 @@ namespace WhiteSpaceWarrior
 
             return content;
         }
-        readonly Regex emptyParamRE;
+        readonly Regex emptyParamRE, emptyRemarksRE;
         static readonly Regex emptyTypeparamRE = new Regex(@"[ \t]+/// <typeparam name\s*=\s*""[^""]*"">\s*</typeparam>[^\n]*\n", options);
         static readonly Regex EmptyReturnsRE = new Regex(@"[ \t]+/// <returns>\s*</returns>[^\n]*\n", options);
 

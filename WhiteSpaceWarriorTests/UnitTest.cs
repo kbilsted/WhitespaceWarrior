@@ -1,5 +1,8 @@
+using System.IO;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WhiteSpaceWarrior;
+using System.Linq;
 
 namespace Tests
 {
@@ -13,9 +16,12 @@ namespace Tests
                 RemoveTags = new string[] {"revision"},
                 RemoveParamNameUptoNWords = 2,
                 RemoveSummaryUptoNWords = 2,
+                RemoveRemarksUptoNWords = 2,
             }).Compress(content);
             return compressed.Trim();
         }
+
+        //%~
 
         /// <summary>
         /// </summary>
@@ -24,8 +30,11 @@ namespace Tests
 
             #region Properties
             /// <summary>
-            /// Usage count
+            /// Compress descriptions to a single line
             /// </summary>
+            /// <remarks>
+            /// Compress descriptions to a single line
+            /// </remarks>
             private int CalculationCount
             {
                 get;
@@ -40,6 +49,7 @@ namespace Tests
             /// <typeparam name="T"></typeparam>
             /// <param name="a"></param>
             /// <param name="b"></param>
+            /// <remarks></remarks>
             /// <returns></returns>
             public int Add<T>(int a, int b)
             {
@@ -56,12 +66,15 @@ namespace Tests
             /// </summary>
             /// <param name="a">A number</param>
             /// <param name="b">A number</param>
+            /// <remarks>
+            /// Very fast
+            /// </remarks>
             /// <returns></returns>
             public int Minus(int a, int b)
             {
 
                 CalculationCount++;
-                return a + b;
+                return a - b;
 
             }
 
@@ -69,67 +82,23 @@ namespace Tests
 
 
         }
-
+        //%~
 
         [Test]
         public void Showcase_all_features()
         {
-            var code = @"
-        /// <summary>
-        /// </summary>
-        public class Calculator
+            var assemblyPath = this.GetType().Assembly.Location;
+            var testPath = Path.Join(Path.GetDirectoryName(assemblyPath), @"..\..\..\UnitTest.cs");
+            var testFile = File.ReadAllText(testPath);
+            var reg = new Regex("//%~(?<content>.*?)//%~", RegexOptions.Singleline);
+            var input = reg.Match(testFile).Groups["content"].Value;
+
+            var compressed = Compress(input);
+            Assert.AreEqual(
+@"public class Calculator
         {
-
-            #region Properties
-            /// <summary>
-            /// Usage count
-            /// </summary>
-            private int CalculationCount
-            {
-                get;
-                set;
-            }
-            #endregion
-
-            #region Methods
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <typeparam name=""T""></typeparam>
-            /// <param name=""a""></param>
-            /// <param name=""b""></param>
-            /// <returns></returns>
-            public int Add<T>(int a, int b)
-            {
-
-                CalculationCount++;
-                return a + b;
-
-            }
-
-            ///////////////////////////////////////////////
-
-            /// <summary>
-            /// Minus impl
-            /// </summary>
-            /// <param name=""a"">A number</param>
-            /// <param name=""b"">A number</param>
-            /// <returns></returns>
-            public int Minus(int a, int b)
-            {
-
-                CalculationCount++;
-                return a - b;
-            }
-
-            #endregion
-
-
-        }";
-
-            var compressed = Compress(code);
-            Assert.AreEqual(@"public class Calculator
-        {
+            /// <summary> Compress descriptions to a single line </summary>
+            /// <remarks> Compress descriptions to a single line </remarks>
             private int CalculationCount { get; set; }
 
             public int Add<T>(int a, int b)
@@ -144,6 +113,8 @@ namespace Tests
                 return a - b;
             }
         }", compressed);
+            Assert.AreEqual(60, input.Count(x => x == '\n')-1);
+            Assert.AreEqual(17, compressed.Count(x => x == '\n'));
         }
 
 

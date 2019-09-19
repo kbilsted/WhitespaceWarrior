@@ -16,8 +16,8 @@
     <ApplicationIcon>whitespacewarrior.ico</ApplicationIcon>
     <PackageIconUrl>https://raw.githubusercontent.com/kbilsted/WhitespaceWarrior/master/whitespacewarrior.png</PackageIconUrl>
     <PackageTags>beautifier formatter clean-code</PackageTags>
-    <Version>1.0.1</Version>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <Version>1.0.2</Version>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <PackAsTool>true</PackAsTool>
   </PropertyGroup>
