@@ -7,7 +7,7 @@
     <Copyright>Kasper B. Graversen</Copyright>
     <Company>KBG Inc.</Company>
     <Authors>Kasper B. Graversen</Authors>
-    <Description>Remove whitespace and cruft from source code, making it easier to read.</Description>
+    <Description>Remove noise from source code, making it easier to read.</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/kbilsted/WhitespaceWarrior</PackageProjectUrl>
     <RepositoryUrl>https://github.com/kbilsted/WhitespaceWarrior</RepositoryUrl>

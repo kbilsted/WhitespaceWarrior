@@ -7,13 +7,13 @@ namespace WhiteSpaceWarrior
         FullName = @"NAME
     WhiteSpaceWarrior ",
         Description = @"DESCRIPTION
-    This command strips unnecessary cruft from c# files.
+    Strip unnecessary noise from c# files.
 
 LICENSE
     Freeware - (c) Kasper B. Graversen 2019"
 
     )]
-    [VersionOption("1.0.0")]
+    [VersionOption("1.0.1")]
     public class Options
     {
         [Required]

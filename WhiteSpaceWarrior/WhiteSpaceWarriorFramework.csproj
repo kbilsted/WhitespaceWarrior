@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <targetframeworks>net4.5</targetframeworks>
+    <targetframeworks>net4.5;netcoreapp2.1</targetframeworks>
     <StartupObject>WhiteSpaceWarrior.Program</StartupObject>
     <Copyright>Kasper B. Graversen</Copyright>
     <Company>KBG Inc.</Company>
