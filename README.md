@@ -1,11 +1,9 @@
 # WhitespaceWarrior
 
-`WhiteSpaceWarrior` is a tool that make scanning code significantly faster by improving the _signal to noice ratio of the code_ 
-- i.e. removing all the stuff you get anoyed about when you speed-read code such as empty lines, empty comments, short meaningles comments.
+`WhiteSpaceWarrior` is a tool that make scanning code significantly faster by improving the _signal to noice ratio of the code_. It 
+ removes all the stuff you get anoyed about when you speed-read code, such as empty lines, empty comments, short meaningles comments.
 
 ![Logo](whitespacewarrior.png)
-
-
 
 
 # Installation
