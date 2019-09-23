@@ -1,12 +1,12 @@
 `WhiteSpaceWarrior` is a tool that make reading code significantly faster by improving the _signal to noise ratio of the code_. It 
- removes all the stuff you get anoyed about when you speed-read code, such as empty lines, empty comments, and short meaningles comments. In other words,
+ removes all the stuff you get annoyed about when you speed-read code, such as empty lines, empty comments, and short meaningles comments. In other words,
  it removes _noise_.
 
 ![Logo](whitespacewarrior.png)
 
 
 
-# The impact on code readbility when removing noise from the code
+# The impact on code readability when removing noise from the code
 
 Let's illustrate the effect of a noisy code base. The example is perhaps not a 100% accurate representation of your code bases,
 but it does a good job of showing the effect of noisy code. It also serves to show the capabilities of `whitespacewarrior`. 
@@ -99,7 +99,7 @@ public class Calculator
 ```
 
 
-Here is a short summary of what kind of whitespace that is cleaned up:
+Here is a short summary of what kind of white space that is cleaned up:
 
 * Empty lines around `{` and `}`
 * Empty or short `<summary>`,`<param name="..">`, `<returns>`, ...
@@ -122,7 +122,7 @@ Or visit the releases at https://github.com/kbilsted/WhitespaceWarrior/releases
 # Code readability and catering for it
 
 One thing that strikes me, is the different between reading a book and reading code.
-A book has a narative, emotional characters, page numbers and switches beteen building and releasing tension.
+A book has a narrative, emotional characters, page numbers and switches between building and releasing tension.
 Reading code, on the other hand, is about _absorbing_ intent, building mental models in your mind. Often with 
 great frustration when the code gets too complex.
 
@@ -141,14 +141,14 @@ When discussing code readability, it often from the perspective slower-pased rea
 I believe we do a great deal of _scanning_. My belief is rooted in a lot of facts
 
   * Only source code is typeset with Mono-spaced fonts. Books, magazines , newspapers, etc. all use proportional fonts
-  * Most programmers have an oppinion and preference with regards to indentation size 
-  * Most programmers prefer syntax highlighting with colours both in editors/IDE's and when reading code-oriented web pages
-  * People express diffculty in keeping concentration and focus when faced with code bases with large portions of text, that do not contribute meaning.
+  * Most programmers have an opinion and preference with regards to indentation size 
+  * Most programmers prefer syntax highlighting with colors both in editors/IDE's and when reading code-oriented web pages
+  * People express difficulty in keeping concentration and focus when faced with code bases with large portions of text, that do not contribute meaning.
 
 
-So faced with a large code base, how do you improve its readability? I think _Effort_ is a key word here. Some code-improving actions require a lot of effort, others not so much. 
-With a tool like `WhiteSpaceWarrior` we can process a very large code base and review all the changes within an hour! That will beat most other initiatives by magnitutes.
-Of course, the same goes for the effect on the code base. An example of a low effort initiaitive is code formatting making the code base look simiar in terms of overall structure. 
+So faced with a large code base, how do you improve its readability? I think _Effort_ is a key word here. Some code-improving actions require a lot of effort, others can be completed in minutes.
+Reformatting tools like `WhiteSpaceWarrior` can process large code bases and review all the changes within an hour! That will beat most other initiatives by magnitudes.
+Of course, the same goes for the effect on the code base. An example of a low effort initiative is code formatting making the code base look similar in terms of overall structure. 
 An example of a large effort initiative is ensuring test coverage, applying SRP, SOLID, FailFast, design patterns, introducing service orchestration and so on.
 
 To visualize this we need two graphs. One for each end of the spectrum of our code reading strategies.
@@ -182,11 +182,53 @@ Obviously, reducing the amount of characters in a source code, makes scanning mo
 I've compiled a set articles that deal with improving code readability here http://firstclassthoughts.co.uk/Tags/Code_Readability.html 
 
 
+## Alternative explanation for commit messages
+This PR aims at make reading code significantly faster by improving the _signal to noise ratio of the code_. 
+
+We removes all the stuff you get annoyed about when you speed-read code, such as empty lines, empty comments, and short meaningles comments. 
+
+
+When we read code, we use techniques ranging from _scanning_ (fast-pased reading), to 
+slow-pased _scrutiny_. 
+
+
+              (code reading spectrum)
+ 
+         fast                        slow 
+       <---------------------------------->
+    Scannning                     Scrutinizing
+
+
+When discussing code readability, it often from the perspective slower-pased reading. 
+I believe we do a great deal of _scanning_ when we read code. Much more than what is given credit. 
+My belief is rooted in a lot of facts
+
+  * Only source code is typeset with Mono-spaced fonts. Books, magazines , newspapers, etc. all use proportional fonts
+  * Most programmers have an opinion and preference with regards to indentation size 
+  * Most programmers prefer syntax highlighting with colors both in editors/IDE's and when reading code-oriented web pages
+  * People express difficulty in keeping concentration and focus when faced with code bases with large portions of text, that do not contribute meaning.
+
+With this PR cleaning the code we impact code readability when _scanning_ code.
+
+              (Scannning)
+         
+       ---------------------------- o ------>
+       Impact
+
+and much less so for when we are _scrutinizing_
+
+              (scrutinizing)
+         
+       ---- o ------------------------------>
+       Impact
+
+
+
 # Language support
 
 At the moment only C# is supported. 
 
-However, I'm very interested in working toghether with people wanting whitespacewarrior-support for their favorite language!
+However, I'm very interested in working together with people wanting whitespacewarrior-support for their favorite language!
 
 
 # Configuration
