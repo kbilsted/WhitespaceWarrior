@@ -13,7 +13,7 @@ LICENSE
     Freeware - (c) Kasper B. Graversen 2019"
 
     )]
-    [VersionOption("1.0.1")]
+    [VersionOption("1.0.3")]
     public class Options
     {
         [Required]
